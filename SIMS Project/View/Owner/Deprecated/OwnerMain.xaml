@@ -1,0 +1,28 @@
+﻿<Window x:Class="SIMS_Project.View.Owner.OwnerMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_Project.View.Owner"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanMinimize"
+        Title="OwnerMain" Height="768" Width="1024">
+    <Grid>
+        <Button x:Name="BtnRegisterAccomodation" Content="New accommodation" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" Height="40" Width="121" Command="{Binding ShowAccommodationRegistrationWindowCommand}"/>
+        <DataGrid Margin="10,10,10,601" AutoGenerateColumns="False" ItemsSource="{Binding Path=Notifications}" SelectedItem="{Binding Path=SelectedNotification}"
+                  IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Body" Binding="{Binding Body}" Width="7*"></DataGridTextColumn>
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Take action"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

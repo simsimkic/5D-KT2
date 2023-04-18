@@ -1,0 +1,22 @@
+﻿<Window x:Class="SIMS_Project.View.TourStatisticsForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_Project.View"
+        mc:Ignorable="d"
+        Title="TourStatisticsForm" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Content="Most visited tour: " Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 25 0 0"></Label>
+        <TextBox  Width="100" IsReadOnly="True" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="125 25 0 0" Text="{Binding Path=mostVisitedTour.Name, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}"></TextBox>
+        <Label Content="{Binding Path=BindingSum, UpdateSourceTrigger=PropertyChanged}" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="225 25 0 0" ></Label>
+        <ComboBox x:Name="CbYears" Width="75" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 75 0 0" SelectionChanged="FindMostVisitedTour"></ComboBox>
+        <Button x:Name="BtnShowCharts" Width="125" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="125 75 0 0" Click="BtnShowCharts_Click" Content="Show charts"></Button>
+
+        <ListBox x:Name="LstTours" Width="700" Height="250" Grid.Row="1"></ListBox>
+    </Grid>
+</Window>

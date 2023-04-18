@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="SIMS_Project.View.Owner.AccommodationReviews"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SIMS_Project.View.Owner"
+             xmlns:converter="clr-namespace:SIMS_Project.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converter:DoubleConverter x:Key="DoubleConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <TabControl x:Name="DetailsTabControl" SelectionChanged="TabControl_SelectionChanged"
+                    BorderBrush="Black" BorderThickness="2">
+            <TabItem Header="Details"></TabItem>
+            <TabItem Header="Reservations"></TabItem>
+            <TabItem Header="Reviews" IsSelected="True">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid x:Name="dgrGuestReviews" Grid.Column="0" Margin="10" AutoGenerateColumns="False" 
+                              ItemsSource="{Binding AccommodationReviews}" IsReadOnly="True" SelectedIndex="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Guest" Width="*">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding StringFormat="{}{0} {1}">
+                                        <Binding Path="GuestReview.Reservation.Guest.FirstName"></Binding>
+                                        <Binding Path="GuestReview.Reservation.Guest.LastName"></Binding>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Starting date" Binding="{Binding GuestReview.Reservation.Start}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Ending date" Binding="{Binding GuestReview.Reservation.End}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Rating" Binding="{Binding Path=Rating, Converter={StaticResource DoubleConverter}}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid Grid.Column="1" Margin="10" DataContext="{Binding ElementName=dgrGuestReviews, Path=SelectedItem}" ShowGridLines="True">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="GuestReview.Reservation.Guest.FirstName"></Binding>
+                                    <Binding Path="GuestReview.Reservation.Guest.LastName"></Binding>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Text="{Binding GuestReview.Reservation.Start}"></TextBlock>
+                        <TextBlock Grid.Row="2" Text="{Binding GuestReview.Reservation.End}"></TextBlock>
+                        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.RowSpan="2">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Cleanliness: "></Label>
+                                <TextBlock Padding="5" Text="{Binding GuestReview.Clean}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Correct communication with owner: "></Label>
+                                <TextBlock Padding="5" Text="{Binding GuestReview.Correct}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Accommodation comfort: "></Label>
+                                <TextBlock Padding="5" Text="{Binding GuestReview.Comfort}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Accommodation location: "></Label>
+                                <TextBlock Padding="5" Text="{Binding GuestReview.Location}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Row="5" Orientation="Vertical">
+                            <Label Content="Guest comment: "></Label>
+                            <TextBox IsReadOnly="True" Text="{Binding GuestReview.Comment}"></TextBox>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Renovations"></TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

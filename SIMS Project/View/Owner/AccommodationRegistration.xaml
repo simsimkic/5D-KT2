@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="SIMS_Project.View.Owner.AccommodationRegistration"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:local="clr-namespace:SIMS_Project.View.Owner"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <Border BorderBrush="Black" BorderThickness="2" Padding="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
+                <Label Content="Accommodation name:" Padding="5 5 0 0"></Label>
+                <TextBox Padding="3" Margin="5 0 5 0 " Text="{Binding Path=NewAccommodation.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{StaticResource ValidationTemplate}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+                <Label Content="Accommodation location:" Padding="5 5 0 0"></Label>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox Width="100" Margin="5 0 0 0" ItemsSource="{Binding Countries}" SelectedValue="{Binding NewAccommodation.Location.Country}"></ComboBox>
+                    <ComboBox Width="100" Margin="15 0 0 0" ItemsSource="{Binding Cities}" SelectedValue="{Binding NewAccommodation.Location.City}"></ComboBox>
+                    <Button Content="New location" Margin="15 0 0 0"></Button>
+                </StackPanel>
+            </StackPanel>
+            <GroupBox Grid.Column="0" Grid.Row="2"  Grid.RowSpan="3" Header="Accommodation type" BorderBrush="Black">
+                <StackPanel Orientation="Vertical">
+                    <RadioButton Content="Apartment"></RadioButton>
+                    <RadioButton Content="House"></RadioButton>
+                    <RadioButton Content="Hut"></RadioButton>
+                </StackPanel>
+            </GroupBox>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="5">
+                <Label Content="Maximum number of guests:" Padding="5 5 0 0"></Label>
+                <xctk:IntegerUpDown Minimum="1" Value="{Binding Path=NewAccommodation.MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                Padding="3" Margin="5 0 0 0" Width="240"></xctk:IntegerUpDown>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="6">
+                <Label Content="Minimum reservation lenght:" Padding="5 5 0 0"></Label>
+                <xctk:IntegerUpDown Minimum="1" Value="{Binding Path=NewAccommodation.MinDays, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                                Padding="3" Margin="5 0 0 0" Width="240"></xctk:IntegerUpDown>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="7">
+                <Label Content="Maximum number of days to cancel reservation:" Padding="5 5 0 0"></Label>
+                <xctk:IntegerUpDown Minimum="1" Value="{Binding Path=NewAccommodation.DaysToCancel, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                Padding="3" Margin="5 0 0 0" Width="136"></xctk:IntegerUpDown>
+            </StackPanel>
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Content="Register new accommodation" Padding="5" Margin="5 0" Command="{Binding AccommodationRegisterCommand}"></Button>
+                <Button Content="Cancel" Padding="5" Margin="5 0"></Button>
+                <Button Content="Start DEMO" Padding="5" Margin="5 0"></Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

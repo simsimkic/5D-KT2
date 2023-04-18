@@ -1,0 +1,33 @@
+﻿<Window x:Class="SIMS_Project.View.ReservationCancelNotificationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_Project.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Cancelled Reservations" Height="450" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="16*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding Path=Notifications, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding Path=ReservationCancelNotification, UpdateSourceTrigger=PropertyChanged}"
+                                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0,54,0,59" Grid.RowSpan="3">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Accommodation" Binding="{Binding AccommodationReservation.Accommodation.Name}" Width="*"/>
+                <DataGridTextColumn Header="Cancelled Date" Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0} - {1}">
+                            <Binding Path="AccommodationReservation.Start" />
+                            <Binding Path="AccommodationReservation.End" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

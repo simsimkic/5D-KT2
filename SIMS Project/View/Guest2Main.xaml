@@ -1,0 +1,17 @@
+﻿<Window x:Class="SIMS_Project.View.Guest2Main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_Project.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        Closing="Guest2Main_Closing"
+        Title="Guest2Main" Height="450" Width="800">
+    <StackPanel Orientation="Horizontal">
+        <Button x:Name="BtnShowTours" Content="Available Tours" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="40" Width="121" Click="BtnShowTours_Click"/>
+        <Button x:Name="BtnShowBookedTours" Content="Booked Tours" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="40" Width="121" Click="BtnShowBookedTours_Click"/>
+        <Button x:Name="BtnShowTourRequests" Content="Tour Requests" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="40" Width="121" Click="BtnShowTourRequests_Click"/>
+        <Button x:Name="BtnSignOut" Content="Sign Out" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="40" Width="121" Click="BtnSignOut_Click"/>
+    </StackPanel>
+</Window>

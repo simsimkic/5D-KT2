@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="SIMS_Project.View.Owner.AccommodationOverview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SIMS_Project.View.Owner"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Border BorderBrush="Black" BorderThickness="2">
+        <Grid ShowGridLines="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="0" 
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Accommodations}"
+                  SelectedItem="{Binding SelectedAccommodation}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Accommodation name" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
+                    <DataGridTextColumn Header="Location" Width="*">
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding StringFormat="{}{0}, {1}">
+                                <Binding Path="Location.City"></Binding>
+                                <Binding Path="Location.Country"></Binding>
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" />
+                    <DataGridCheckBoxColumn Header="InUse" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="Details" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Details" 
+                                    Command="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}},
+                                              Path=DataContext.CurrentViewModel.NavigateAccommodationDetailsCommand}"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Statistics">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Stats"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Remove accommodation">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Remove"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Register new accommodation" Command="{Binding NavigateAccommodationRegistrationCommand}" Margin="10"></Button>
+                <Button Content="SMART recommendation system" Margin="10"></Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

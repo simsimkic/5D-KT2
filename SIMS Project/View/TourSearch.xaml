@@ -1,0 +1,158 @@
+﻿<Window x:Class="SIMS_Project.View.TourSearch"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_Project.View"
+        xmlns:converter="clr-namespace:SIMS_Project.Converter"
+        xmlns:validation="clr-namespace:SIMS_Project.Validation"
+        mc:Ignorable="d"
+        Title="TourSearch" Height="450" Width="800">
+    <Window.Resources>
+        <converter:ImageConverter x:Key="ImageConverter" BasePath="../../../Resources/Tours/Images/"/>
+        <converter:IntConverter x:Key="IntConverter"/>
+        <converter:LocationConverter x:Key="LocationConverter"/>
+        <validation:LocationValidation x:Key="LocationValidation"/>
+        <validation:PositiveIntValidation x:Key="PositiveIntValidation"/>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock FontSize="10" Text="{Binding [0].ErrorContent}" Foreground="Red" />
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+            <Label Margin="0" FontWeight="SemiBold">Search filters:</Label>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0" VerticalAlignment="Center">Location:</Label>
+                <TextBox x:Name="TextBoxSetLocation" Margin="5" Width="100" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
+                    <TextBox.Text>
+                        <Binding UpdateSourceTrigger="PropertyChanged" Path="SetLocation" Mode="OneWayToSource"
+                                 Converter="{StaticResource LocationConverter}" ValidatesOnDataErrors="True">
+                            <Binding.ValidationRules>
+                                <validation:LocationValidation/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Margin="0" VerticalAlignment="Center">Duration:</Label>
+                <TextBox x:Name="TextBoxSetDuration" Margin="5" Width="100" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
+                    <TextBox.Text>
+                        <Binding UpdateSourceTrigger="PropertyChanged" Path="SetDuration" Mode="OneWayToSource"
+                                 Converter="{StaticResource IntConverter}" ValidatesOnDataErrors="True">
+                            <Binding.ValidationRules>
+                                <validation:PositiveIntValidation/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Margin="0" VerticalAlignment="Center">Language:</Label>
+                <TextBox x:Name="TextBoxSetLanguage" Text="{Binding SetLanguage}" Margin="5" Width="100"></TextBox>
+                <Label Margin="0" VerticalAlignment="Center">Number of guests:</Label>
+                <TextBox x:Name="TextBoxSetGuestNumber" Margin="5" Width="100" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
+                    <TextBox.Text>
+                        <Binding UpdateSourceTrigger="PropertyChanged" Path="SetGuestNumber" Mode="OneWayToSource"
+                                 Converter="{StaticResource IntConverter}" ValidatesOnDataErrors="True">
+                            <Binding.ValidationRules>
+                                <validation:PositiveIntValidation/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <Button x:Name="BtnSearch" Margin="5" Click="BtnSearch_Click" HorizontalAlignment="Left" Content="Search">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=TextBoxSetLocation}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=TextBoxSetDuration}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=TextBoxSetLanguage}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=TextBoxSetGuestNumber}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+        <Button x:Name="BtnTourReservation" Margin="10" Width="50" HorizontalAlignment="Left" DockPanel.Dock="Bottom" IsEnabled="False" Click="BtnTourReservation_Click">Book</Button>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="0" FontWeight="DemiBold" FontSize="20">Tours:</Label>
+            <ListBox Grid.Row="1" x:Name="ListBoxTours" ScrollViewer.CanContentScroll="False" SelectionChanged="ListBoxTours_SelectionChanged"
+                     ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Path=TourStarts}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="TextBlockId" Text="{Binding Tour.Id}" Width="0"></TextBlock>
+                            <ListBox Margin="0,0,5,0" Width="200" ItemsSource="{Binding Path=Tour.Images}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Height="150">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource ImageConverter}">
+                                                    <Binding Path="Text" ElementName="TextBlockId"/>
+                                                    <Binding/>
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="Bold" Margin="0,0,5,0" Padding="0">Name:</Label>
+                                    <TextBlock Text="{Binding Tour.Name}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="Bold" Margin="0,0,5,0" Padding="0">Location:</Label>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}, {1}">
+                                                <Binding Path="Tour.Location.City"/>
+                                                <Binding Path="Tour.Location.Country"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="Bold" Margin="0,0,5,0" Padding="0">Language:</Label>
+                                    <TextBlock Text="{Binding Tour.Language}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="Bold" Margin="0,0,5,0" Padding="0">Maximum guests:</Label>
+                                    <TextBlock Text="{Binding Tour.MaxGuestNumber}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="Bold" Margin="0,0,5,0" Padding="0">Description:</Label>
+                                    <TextBlock Text="{Binding Tour.Description}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="Bold" Margin="0,0,5,0" Padding="0">Duration:</Label>
+                                    <TextBlock Text="{Binding Tour.TourDuration, StringFormat={}{0} hours}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontWeight="Bold" Margin="0,0,5,0" Padding="0">Start time:</TextBlock>
+                                    <TextBlock Text="{Binding StartDateTime}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </DockPanel>
+</Window>
